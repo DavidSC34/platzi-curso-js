@@ -32,8 +32,8 @@ const META = sacha.peso - 3;
 //Funciones para aumentar y bajar peso
 //Nota: los objetos se pasan por referencia, asi que modifica directamente
 //al objeto
-const aumentarDePeso = ({peso}) => peso += INCREMENTO_PESO;
-const adelgazar =  ({peso}) => peso -= INCREMENTO_PESO;
+const aumentarDePeso = persona => persona.peso += INCREMENTO_PESO;
+const adelgazar =  persona => persona.peso -= INCREMENTO_PESO;
 var dias = 0;
 //Todavia peso los 3 kilos demas?  entonces
 while (sacha.peso > META) {
