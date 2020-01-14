@@ -41,7 +41,7 @@ function onError(id){
 
 
 
-//Ejemplo adicional
+//Ejemplo adicional, promesas en serie, respuestas en orden
   obtenerPersonaje(1)
     .then(personaje1 =>{
         console.log(`El personaje 1 es ${personaje1.name}`)
