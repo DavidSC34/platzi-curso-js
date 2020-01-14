@@ -111,13 +111,26 @@
 
         inicializar(){
               btnEmpezar.classList.add('hide');
+              this.nivel = 1;
+              //las proeidad del objeto colores se puede formar sin los : ya que se llaman igual y JS lo hace
+              this.colores ={
+                celeste :celeste,
+                violeta,
+                naranja,
+                verde
+              }
+        }
+
+        generarSecuencia(){
+          //Si no existe la propiedad la agrega al objeto
+          this.secuencia = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
         }
 
       }
 
       function empezarJuego(){
 
-         var juego = new Juego();
+         window.juego = new Juego();
       }
 
 
