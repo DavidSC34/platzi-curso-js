@@ -111,8 +111,9 @@
         }
 
         inicializar(){
+              this.elegirColor = this.elegirColor.bind(this);//=< ya no pierde la referencia a this
               btnEmpezar.classList.add('hide');
-              this.nivel = 7;
+              this.nivel = 1;
               //las proeidad del objeto colores se puede formar sin los : ya que se llaman igual y JS lo hace
               this.colores ={
                 celeste,
@@ -129,6 +130,7 @@
 
         siguienteNivel(){
           this.iluminarSecuencia();//=>va recorrer la secuenia hasta el nivel del usuario (nivel:1)
+          this.agregarEventosClick();
         }
         //Funcion para pasar de numero a color en string para manejarlo en el document
         tranformarNumeroAColor(numero){
@@ -161,12 +163,27 @@
         apagarColor(color){
             this.colores[color].classList.remove('light');
         }
+        agregarEventosClick(){
+
+          //var selft = this; Para no perder el this o referencia a este juego u objeto
+          //this.colores.celeste.addEventListener('click', this.elegirColor.bind(selft));
+
+          this.colores.celeste.addEventListener('click', this.elegirColor);
+          this.colores.violeta.addEventListener('click', this.elegirColor);
+          this.colores.naranja.addEventListener('click', this.elegirColor);
+          this.colores.verde.addEventListener('click', this.elegirColor);
+        }
+
+        elegirColor(ev){
+          console.log(this);//=> quien es this, yo que siga siendo el objeto juego, usamos bind
+
+        }
 
       }
 
       function empezarJuego(){
 
-         var juego = new Juego();
+         window.juego = new Juego();
       }
 
 
