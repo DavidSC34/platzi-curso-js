@@ -82,6 +82,10 @@
       .hide {
         display: none;
       }
+
+      *{
+        font-style: 'Arial';
+      }
     </style>
   </head>
   <body>
@@ -92,6 +96,7 @@
       <div id="verde" class="color verde right" data-color="verde"></div>
       <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
     //Obtner el boton empezar el juego para despues ocultarlo
@@ -99,20 +104,27 @@
     const violeta = document.getElementById('violeta');
     const naranja = document.getElementById('naranja');
     const verde = document.getElementById('verde');
-
+    const ULTIMO_NIVEL = 4;
      const btnEmpezar = document.getElementById('btnEmpezar');
 
 
       class Juego{
         constructor(){
+          this.inicializar = this.inicializar.bind(this);
           this.inicializar();
+
           this.generarSecuencia();
-          this.siguienteNivel();
+          setTimeout(  this.siguienteNivel,500 );//=> Para dar mas tiempo a que apareza la siguiente secuencia
+
         }
 
         inicializar(){
+
+              this.siguienteNivel = this.siguienteNivel.bind(this);//=< ya no pierde la referencia a this
               this.elegirColor = this.elegirColor.bind(this);//=< ya no pierde la referencia a this
-              btnEmpezar.classList.add('hide');
+
+
+              this.togglebtnEmpezar();
               this.nivel = 1;
               //las proeidad del objeto colores se puede formar sin los : ya que se llaman igual y JS lo hace
               this.colores ={
@@ -123,12 +135,24 @@
               }
         }
 
+        togglebtnEmpezar(){
+            if (btnEmpezar.classList.contains('hide')) {
+              btnEmpezar.classList.remove('hide');
+            }else{
+                btnEmpezar.classList.add('hide');
+            }
+
+
+        }
+
         generarSecuencia(){
           //Si no existe la propiedad la agrega al objeto
-          this.secuencia = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
+          this.secuencia = new Array(ULTIMO_NIVEL).fill(0).map(n=> Math.floor(Math.random()*4))
         }
 
         siguienteNivel(){
+          //Subnivel es como la variable o atributo que recorre por la secuencia
+          this.subnivel = 0;//Apartir de ahora ya aparece en el objto aunque no este en el constructor
           this.iluminarSecuencia();//=>va recorrer la secuenia hasta el nivel del usuario (nivel:1)
           this.agregarEventosClick();
         }
@@ -146,6 +170,21 @@
 
           }
         }
+        //Funcion para pasar de numero a color en string para manejarlo en el document
+        tranformarColorANumero(color){
+          switch (color) {
+            case 'celeste':
+              return 0;
+            case 'violeta':
+              return 1;
+            case 'naranja':
+              return 2;
+            case 'verde':
+              return 3;
+
+          }
+        }
+
 
         iluminarSecuencia(){
             for (let i = 0; i < this.nivel; i++) {
@@ -173,11 +212,59 @@
           this.colores.naranja.addEventListener('click', this.elegirColor);
           this.colores.verde.addEventListener('click', this.elegirColor);
         }
+        eliminarEventosClick(){
+
+          //var selft = this; Para no perder el this o referencia a este juego u objeto
+          //this.colores.celeste.addEventListener('click', this.elegirColor.bind(selft));
+
+          this.colores.celeste.removeEventListener('click', this.elegirColor);
+          this.colores.violeta.removeEventListener('click', this.elegirColor);
+          this.colores.naranja.removeEventListener('click', this.elegirColor);
+          this.colores.verde.removeEventListener('click', this.elegirColor);
+        }
 
         elegirColor(ev){
-          console.log(this);//=> quien es this, yo que siga siendo el objeto juego, usamos bind
+          //console.log(this);//=> quien es this, yo que siga siendo el objeto juego, usamos bind
+          const nombreColor = ev.target.dataset.color; //=> lo que sale al consola de ev y el html del color
+          //Necesitamos pasar el nombre de color a numero para compararlo con la secuenia
+          const numeroColor = this.tranformarColorANumero(nombreColor);
+          //Para que se vea el usuario podemos iluminar su seleccion
+
+          this.iluminarColor(nombreColor);
+          //Necesitamos algo para checar como pasar un nivel
+                if (numeroColor === this.secuencia[this.subnivel]) {
+                  this.subnivel++;//Par avanzar en la secuencia
+                  //Ahora checar si pasa de nivel o gano
+                      if (this.subnivel === this.nivel) {
+                          this.nivel++//=>avanza de nivel
+                          this.eliminarEventosClick();
+                          if (this.nivel === (ULTIMO_NIVEL + 1)) {
+                              this.ganoElJuego();
+                          }else{
+                            setTimeout(this.siguienteNivel,1500)//Con esta funcion window delega esta funcion y se cambia el this a windows
+
+                          }
+                      }
+
+                }else{
+                  this.perdioElJuego();
+                }
 
         }
+
+        ganoElJuego(){
+          swal('Platzi', 'Felicidades, ganaste el juego','success')
+          .then(this.inicializar)
+        }
+
+        perdioElJuego(){
+          swal('Platzi', 'Lo lamentamos, perdsiste :(','error')
+          .then(()=>{
+                this.eliminarEventosClick();
+                this.inicializar();
+          })
+        }
+
 
       }
 
