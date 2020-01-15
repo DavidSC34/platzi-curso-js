@@ -107,14 +107,15 @@
         constructor(){
           this.inicializar();
           this.generarSecuencia();
+          this.siguienteNivel();
         }
 
         inicializar(){
               btnEmpezar.classList.add('hide');
-              this.nivel = 1;
+              this.nivel = 7;
               //las proeidad del objeto colores se puede formar sin los : ya que se llaman igual y JS lo hace
               this.colores ={
-                celeste :celeste,
+                celeste,
                 violeta,
                 naranja,
                 verde
@@ -126,11 +127,46 @@
           this.secuencia = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
         }
 
+        siguienteNivel(){
+          this.iluminarSecuencia();//=>va recorrer la secuenia hasta el nivel del usuario (nivel:1)
+        }
+        //Funcion para pasar de numero a color en string para manejarlo en el document
+        tranformarNumeroAColor(numero){
+          switch (numero) {
+            case 0:
+              return 'celeste';
+            case 1:
+              return 'violeta';
+            case 2:
+              return 'naranja';
+            case 3:
+              return 'verde';
+
+          }
+        }
+
+        iluminarSecuencia(){
+            for (let i = 0; i < this.nivel; i++) {
+              const color = this.tranformarNumeroAColor(this.secuencia[i]);//Para saber cuantos colores ilumina , nivel 1, colores :1
+              //Ya que esta en un for ira muy rapido pero le daremos tiempo
+              setTimeout(()=>this.iluminarColor(color), 1000 * i); //POr que para cada color darle un segundo entre cada uno
+
+            }
+        }
+        iluminarColor(color){
+          this.colores[color].classList.add('light');
+          //par que solo lo ilumine un tiempo
+          setTimeout(()=>this.apagarColor(color),350);
+        }
+        apagarColor(color){
+            this.colores[color].classList.remove('light');
+        }
+
       }
 
       function empezarJuego(){
 
-         window.juego = new Juego();
+         var juego = new Juego();
       }
 
 
