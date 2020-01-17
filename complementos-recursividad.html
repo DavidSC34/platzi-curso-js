@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+/*
+   13 |4____
+   13 - 4 = 9       1
+   9 - 4  = 5       1
+   5 - 4  = 1       1
+   1 -  4 = -3      0
+*/
+
+      function divisionEntero(dividendo, divisor){
+            if( dividendo < divisor){
+                    return 0;
+            }
+            //Es importante que ponga la resta de dividen y divisor para que conitnue el calculo
+          return 1 + divisionEntero(dividendo - divisor, divisor);
+      }
+
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+<p>sdsdf</p>
+    <script>
+
+      function diasEntreFechas(fecha1, fecha2){
+          const unDia =  1000 * 60 * 60 * 24
+          const diferencia = Math.abs(fecha1 -fecha2) //Por si salen numeros negativos
+
+          return Math.floor(diferencia / unDia)
+      }
+
+  const hoy = new Date() //=> fecha actual por defecto
+  const nacimiento = new Date(1984,6,11)
+
+  diasEntreFechas
+
+    </script>
+  </body>
+</html>
