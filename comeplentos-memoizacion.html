@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      /***
+        En este siguiente ejemplo veremos como ahorrar computo, por ejemplo de un
+        factorial y como hacer uso de la cache para evitar calculos que ya se hayan
+        hecho previamente
+
+        Ejemplo de un factorial
+        !6 = 6 * 5 *4 *3 *2 *1 = 720
+        !12 = 12 * 11 * 10 * 9 * 8 * 7 *!6
+      ***/
+
+      function factorial(n){
+          //aqui hacemos uso de la cache
+          if(!this.cache){
+            this.cache = {}
+          }
+//verifica si ya se hizo el calculo previamente para evitar computo demas
+          if(this.cache[n]){
+            return this.cache[n];
+          }
+
+          if(n === 1){
+            return 1;
+          }
+
+  
+
+      this.cache[n]  = n * factorial( n- 1 );
+      return this.cache[n]
+
+
+      // 6 * factorial (5)
+      //6 * 5 *factorial(4)...
+}
+    </script>
+  </body>
+</html>

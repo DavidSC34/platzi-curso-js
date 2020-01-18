@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      /****
+      Entiende los closures de JavaScript
+Un closure, básicamente, es una función que recuerda el estado de las variables
+al momento de ser invocada, y conserva este estado a través de reiteradas ejecuciones.
+Un aspecto fundamental de los closures es que son f
+unciones que retornan otras funciones.
+
+En este ejemplo creamos una funcion generadora de funciones
+      Lo importante es ver como recuerda un parametro de la funcion , ademas
+      de no declaramos con var o let.
+      ***/
+
+
+      function crearSaludo(finalDeFrase){
+         return function(nombre){
+            console.log(`Hoa  ${nombre} ${finalDeFrase}`)
+         }
+      }
+
+      const saludoARgentino = crearSaludo('che');
+      const saludoMexicano = crearSaludo('guey');
+      const saludoColombiano = crearSaludo('amigo');
+
+      saludoARgentino('Sacha'); //=> Hola Sacha che
+      saludoMexicano('Sacha');//=> Hola Sacha guey
+      saludoColombiano('Sacha');//=> Hola Sacha amigo
+    </script>
+  </body>
+</html>

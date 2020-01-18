@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+<script type="text/javascript">
+
+
+    /*
+
+    THIs se inicia en tiempo de ejecucion
+
+    THIS apunta al objeto desde donde se llama la funcion, mientras no se usen las funciones
+    call, bind o apply
+
+Para ejecutar funciones o codigo asincrono y asegurra uien es this
+    */
+
+    const jesus = {
+    nombre : 'Jesus',
+    apellido : 'Castellanos',
+    edad : 29
+}
+
+const  yesika= {
+    nombre : 'Yesika',
+    apellido : 'Cortés',
+    edad : 29
+}
+
+function saludar (saludo = 'Hola'){
+    console.log(`${saludo}, mi nombre es ${this.nombre}`);
+}
+
+//const saludarAJesus = saludar.bind(jesus);
+//const saludarAYesika = saludar.bind(yesika);
+
+//setTimeout( saludar.bind(yesika), 1000);
+//saludar.call(jesus,'Hola che');
+
+saludar.apply(jesus,['Hola che']);
+</script>
+  </body>
+</html>
